@@ -1,13 +1,13 @@
 project "FreeImage"
         kind "StaticLib"
         language "C++"
-        cppdialect "C++17"
         staticruntime "on"
 
-        targetdir ("bin/" Source outputdir Source "/%{prj.name}")
-        objdir ("bin-int/" Source outputdir Source "/%{prj.name}")
+        targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+        objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
         includedirs {
+            "Source",
             "Source/Zlib",
             "Source/OpenEXR",
             "Source/OpenEXR/Half",
@@ -18,21 +18,31 @@ project "FreeImage"
             "Source/LibJXR/jxrgluelib",
             "Source/LibJXR/image/sys",
 
-            "Source/CacheFile.h",
-            "Source/MapIntrospector.h",
-            "Source/Metadata/FIRational.h",
-            "Source/FreeImage.h",
-            "Source/FreeImageIO.h",
-            "Source/Metadata/FreeImageTag.h",
-            "Source/Plugin.h",
-            "Source/FreeImage/PSDParser.h",
-            "Source/Quantizers.h",
-            "Source/ToneMapping.h",
-            "Source/Utilities.h",
-            "Source/FreeImageToolkit/Resize.hCacheFile"
+            "Source/LibRawLite",
+            "Source/LibPNG",
+            "Source/LibJPEG",
+            "Source/LibOpenJPEG",
+            "Source/LibTIFF4",
+            "Source/LibJXR",
+            "Source/LibJXR/image/sys",
+            "Source/LibJXR/common/include",
+            "Source/LibJXR/jxrgluelib",
+            "Source/OpenEXR",
+            "Source/OpenEXR/Ilmimf",
+            "Source/OpenEXR/Imath",
+            "Source/OpenEXR/Iex",
+            "Source/OpenEXR/Half",
+            "Source/OpenEXR/Ilmthread",
+            "Source/LibWebP",
+            "Source/Zlib"
         }
-
+        
         files {
+            -- Zlib
+            "Source/Zlib/*.h",
+            "Source/Zlib/*.c",
+
+            -- FreeImage
             "Source/CacheFile.h",
             "Source/MapIntrospector.h",
             "Source/Metadata/FIRational.h",
@@ -44,8 +54,7 @@ project "FreeImage"
             "Source/Quantizers.h",
             "Source/ToneMapping.h",
             "Source/Utilities.h",
-            "Source/FreeImageToolkit/Resize.hCacheFile"
-
+            "Source/FreeImageToolkit/Resize.hCacheFile",
             "Source/FreeImage/BitmapAccess.cpp",
             "Source/FreeImage/ColorLookup.cpp",
             "Source/FreeImage/ConversionRGBA16.cpp",
@@ -134,83 +143,27 @@ project "FreeImage"
             "Source/FreeImageToolkit/JPEGTransform.cpp",
             "Source/FreeImageToolkit/MultigridPoissonSolver.cpp",
             "Source/FreeImageToolkit/Rescale.cpp",
-            "Source/FreeImageToolkit/Resize.cpp"
-        }
+            "Source/FreeImageToolkit/Resize.cpp",
 
-        excludes {
-            "Source/openexr/ilmthread/ilmthreadmutexposix.cpp",      
-            "Source/openexr/ilmthread/ilmthreadmutexwin32.cpp",
-            "Source/openexr/ilmthread/ilmthreadsemaphoreposix.cpp",
-            "Source/openexr/ilmthread/ilmthreadsemaphoreposixcompat.cpp",
-            "Source/openexr/ilmthread/ilmthreadsemaphorewin32.cpp",
-            "Source/openexr/ilmthread/ilmthreadwin32.cpp"
-        }
+            -- LibRawLite
+            "Source/LibRawLite/internal/dcraw_common.cpp",
+            "Source/LibRawLite/internal/dcraw_fileio.cpp",
+            "Source/LibRawLite/internal/demosaic_packs.cpp",
+            "Source/LibRawLite/src/libraw_c_api.cpp",
+            "Source/LibRawLite/src/libraw_cxx.cpp",
+            "Source/LibRawLite/src/libraw_datastream.cpp",
+            "Source/LibRawLite/internal/defines.h",
+            "Source/LibRawLite/internal/libraw_internal_funcs.h",
+            "Source/LibRawLite/internal/var_defines.h",
 
-        defines {
-            "LIBRAW_NODLL",
-            "FREEIMAGE_LIB",
-            "OPJ_STATIC"
-        }
-
-        filter "configurations:Debug"
-            defines "C_DEBUG"
-            runtime "Debug"
-            symbols "on"
-            optimize "on"
-            targetsuffix "-d"
-    
-        filter "configurations:Release"
-            defines "C_RELEASE"
-            runtime "Release"
-            optimize "on"
-
-project "Zlib"
-        kind "StaticLib"
-        language "C"
-        staticruntime "on"
-
-        includedirs
-        {
-            "Source/Zlib"
-        }
-            
-        files 
-        { 
-            "Source/Zlib/*.h",
-            "Source/Zlib/*.c",
-        }
-        
-        excludes
-        {
-            "Source/Zlib/example.c",
-            "Source/Zlib/minigzip.c",
-        }
-        
-        defines 
-        {
-            "_LIB",
-            "_CRT_SECURE_NO_DEPRECATE"
-        }
-
-project "LibPNG"
-        kind "StaticLib"
-        language "C"
-        staticruntime "on"
-        
-        includedirs {
-            "Source/LibPNG",
-            "Source/Zlib"
-        }
-
-        files {
+            -- LibPNG
             "Source/LibPNG/png.h",
             "Source/LibPNG/pngconf.h",
             "Source/LibPNG/pngdebug.h",
             "Source/LibPNG/pnginfo.h",
             "Source/LibPNG/pnglibconf.h",
             "Source/LibPNG/pngpriv.h",
-            "Source/LibPNG/pngstruct.h"
-
+            "Source/LibPNG/pngstruct.h",
             "Source/LibPNG/png.c",
             "Source/LibPNG/pngerror.c",
             "Source/LibPNG/pngget.c",
@@ -225,45 +178,9 @@ project "LibPNG"
             "Source/LibPNG/pngwio.c",
             "Source/LibPNG/pngwrite.c",
             "Source/LibPNG/pngwtran.c",
-            "Source/LibPNG/pngwutil.c"
-        }
+            "Source/LibPNG/pngwutil.c",
 
-        filter "configurations:Debug"
-            defines "C_DEBUG"
-            runtime "Debug"
-            symbols "on"
-            optimize "on"
-            targetsuffix "-d"
-    
-        filter "configurations:Release"
-            defines "C_RELEASE"
-            runtime "Release"
-            optimize "on"
-
-
-project "LibJPEG"
-        kind "StaticLib"
-        language "C"
-        staticruntime "on"
-        
-        includedirs {
-            "Source/LibJPEG",
-            "Source/Zlib"
-        }
-
-        filter "configurations:Debug"
-            defines "C_DEBUG"
-            runtime "Debug"
-            symbols "on"
-            optimize "on"
-            targetsuffix "-d"
-    
-        filter "configurations:Release"
-            defines "C_RELEASE"
-            runtime "Release"
-            optimize "on"
-
-        files {
+            -- LibJPEG
             "Source/LibJPEG/jaricom.c",
             "Source/LibJPEG/jcapimin.c",
             "Source/LibJPEG/jcapistd.c",
@@ -312,7 +229,6 @@ project "LibJPEG"
             "Source/LibJPEG/jutils.c",
             "Source/LibJPEG/transupp.c",
 
-
             "Source/LibJPEG/jconfig.h",
             "Source/LibJPEG/jdct.h",
             "Source/LibJPEG/jerror.h",
@@ -322,106 +238,17 @@ project "LibJPEG"
             "Source/LibJPEG/jpegint.h",
             "Source/LibJPEG/jpeglib.h",
             "Source/LibJPEG/jversion.h",
-            "Source/LibJPEG/transupp.h"
-        }
+            "Source/LibJPEG/transupp.h",
 
-        defines {
-            "_LIB",
-            "OPJ_STATIC",
-            "_CRT_SECURE_NO_DEPRECATE"
-        }
-
-        filter "configurations:Debug"
-            defines "C_DEBUG"
-            runtime "Debug"
-            symbols "on"
-            optimize "on"
-            targetsuffix "-d"
-    
-        filter "configurations:Release"
-            defines "C_RELEASE"
-            runtime "Release"
-            optimize "on"
-
-project "LibOpenJPEG"
-        kind "StaticLib"
-        language "C"
-        staticruntime "on"
-        
-        includedirs {
-            "Source/LibOpenJPEG",
-            "Source/Zlib"
-        }
-
-        files {
+            -- LibOpenJPEG
             "Source/LibOpenJPEG/*.h",
-            "Source/LibOpenJPEG/*.c"
-        }
+            "Source/LibOpenJPEG/*.c",
 
-        filter "configurations:Debug"
-            defines "C_DEBUG"
-            runtime "Debug"
-            symbols "on"
-            optimize "on"
-            targetsuffix "-d"
-    
-        filter "configurations:Release"
-            defines "C_RELEASE"
-            runtime "Release"
-            optimize "on"
-
-project "LibTIFF4"
-        kind "StaticLib"
-        language "C"
-        staticruntime "on"
-        
-        includedirs {
-            "Source/LibTIFF4",
-        }
-
-        files { 
+            -- LibTIFF4
             "Source/LibTIFF4/*.h",
             "Source/LibTIFF4/*.c",
-        }
 
-        excludes {
-            "Source/LibTIFF4/mkg3states.c",
-            "Source/LibTIFF4/mkspans.c",
-            "Source/LibTIFF4/tif_acorn.c",
-            "Source/LibTIFF4/tif_atari.c",
-            "Source/LibTIFF4/tif_apple.c",
-            "Source/LibTIFF4/tif_msdos.c",
-            "Source/LibTIFF4/tif_unix.c",
-            "Source/LibTIFF4/tif_vms.c",
-            "Source/LibTIFF4/tif_wince.c",
-            "Source/LibTIFF4/tif_win3.c",
-            "Source/LibTIFF4/tif_win32.c"
-        }
-
-        filter "configurations:Debug"
-            defines "C_DEBUG"
-            runtime "Debug"
-            symbols "on"
-            optimize "on"
-            targetsuffix "-d"
-    
-        filter "configurations:Release"
-            defines "C_RELEASE"
-            runtime "Release"
-            optimize "on"
-
-project "LibJXR"
-        kind "StaticLib"
-        language "C"
-        staticruntime "on"
-        
-        includedirs {
-            "Source/LibTIFF4"
-            "Source/LibTIFF4/image/sys",
-            "Source/LibTIFF4/jxrgluelib"
-        }
-
-        files {
+            -- LibJXR
             "Source/LibJXR/image/decode/decode.c",
             "Source/LibJXR/image/decode/JXRTranscode.c",
             "Source/LibJXR/image/decode/postprocess.c",
@@ -463,43 +290,9 @@ project "LibJXR"
             "Source/LibJXR/common/include/wmspecstrings_strict.h",
             "Source/LibJXR/common/include/wmspecstrings_undef.h",
             "Source/LibJXR/jxrgluelib/JXRGlue.h",
-            "Source/LibJXR/jxrgluelib/JXRMeta.h"
-        }
+            "Source/LibJXR/jxrgluelib/JXRMeta.h",
 
-        defines {
-            "_LIB",
-            "DISABLE_PERF_MEASUREMENT"
-        }
-
-        filter "configurations:Debug"
-            defines "C_DEBUG"
-            runtime "Debug"
-            symbols "on"
-            optimize "on"
-            targetsuffix "-d"
-    
-        filter "configurations:Release"
-            defines "C_RELEASE"
-            runtime "Release"
-            optimize "on"
-
-project "OpenEXR"
-        kind "StaticLib"
-        language "C"
-        staticruntime "on"   
-
-        includedirs
-        {
-            "Source/OpenEXR",
-            "Source/OpenEXR/Ilmimf",
-            "Source/OpenEXR/Imath",
-            "Source/OpenEXR/Iex",
-            "Source/OpenEXR/Half",
-            "Source/OpenEXR/Ilmthread",
-            "Source/Zlib"
-        }
-
-        files {
+            -- OpenEXR
             "Source/OpenEXR/IexMath/IexMathFpu.cpp",
             "Source/OpenEXR/IlmImf/b44ExpLogTable.cpp",
             "Source/OpenEXR/IlmImf/ImfAcesFile.cpp",
@@ -605,7 +398,7 @@ project "OpenEXR"
             "Source/OpenEXR/IlmThread/IlmThreadMutex.cpp",
             "Source/OpenEXR/IlmThread/IlmThreadPool.cpp",
             "Source/OpenEXR/IlmThread/IlmThreadSemaphore.cpp",
-            "Source/OpenEXR/IexMath/IexMathFloatExc.cpp"
+            "Source/OpenEXR/IexMath/IexMathFloatExc.cpp",
 
             "Source/OpenEXR/IlmBaseConfig.h",
             "Source/OpenEXR/OpenEXRConfig.h",
@@ -776,11 +569,206 @@ project "OpenEXR"
             "Source/OpenEXR/IlmThread/IlmThreadPool.h",
             "Source/OpenEXR/IlmThread/IlmThreadSemaphore.h",
             "Source/OpenEXR/IexMath/IexMathFloatExc.h",
-            "Source/OpenEXR/IexMath/IexMathIeeeExc.h"
+            "Source/OpenEXR/IexMath/IexMathIeeeExc.h",
+
+            -- LibWebP
+            "Source/LibWebP/src/dec/alphai_dec.h",
+            "Source/LibWebP/src/dec/common_dec.h",
+            "Source/LibWebP/src/dec/vp8i_dec.h",
+            "Source/LibWebP/src/dec/vp8li_dec.h",
+            "Source/LibWebP/src/dec/vp8_dec.h",
+            "Source/LibWebP/src/dec/webpi_dec.h",
+            "Source/LibWebP/src/dsp/common_sse2.h",
+            "Source/LibWebP/src/dsp/common_sse41.h",
+            "Source/LibWebP/src/dsp/dsp.h",
+            "Source/LibWebP/src/dsp/lossless.h",
+            "Source/LibWebP/src/dsp/lossless_common.h",
+            "Source/LibWebP/src/dsp/mips_macro.h",
+            "Source/LibWebP/src/dsp/msa_macro.h",
+            "Source/LibWebP/src/dsp/neon.h",
+            "Source/LibWebP/src/dsp/yuv.h",
+            "Source/LibWebP/src/enc/backward_references_enc.h",
+            "Source/LibWebP/src/enc/cost_enc.h",
+            "Source/LibWebP/src/enc/delta_palettization_enc.h",
+            "Source/LibWebP/src/enc/histogram_enc.h",
+            "Source/LibWebP/src/enc/vp8i_enc.h",
+            "Source/LibWebP/src/enc/vp8li_enc.h",
+            "Source/LibWebP/src/mux/animi.h",
+            "Source/LibWebP/src/mux/muxi.h",
+            "Source/LibWebP/src/utils/bit_reader_inl_utils.h",
+            "Source/LibWebP/src/utils/bit_reader_utils.h",
+            "Source/LibWebP/src/utils/bit_writer_utils.h",
+            "Source/LibWebP/src/utils/color_cache_utils.h",
+            "Source/LibWebP/src/utils/endian_inl_utils.h",
+            "Source/LibWebP/src/utils/filters_utils.h",
+            "Source/LibWebP/src/utils/huffman_encode_utils.h",
+            "Source/LibWebP/src/utils/huffman_utils.h",
+            "Source/LibWebP/src/utils/quant_levels_dec_utils.h",
+            "Source/LibWebP/src/utils/quant_levels_utils.h",
+            "Source/LibWebP/src/utils/random_utils.h",
+            "Source/LibWebP/src/utils/rescaler_utils.h",
+            "Source/LibWebP/src/utils/thread_utils.h",
+            "Source/LibWebP/src/utils/utils.h",
+            "Source/LibWebP/src/webp/decode.h",
+            "Source/LibWebP/src/webp/demux.h",
+            "Source/LibWebP/src/webp/encode.h",
+            "Source/LibWebP/src/webp/format_constants.h",
+            "Source/LibWebP/src/webp/mux.h",
+            "Source/LibWebP/src/webp/mux_types.h",
+            "Source/LibWebP/src/webp/types.h",
+            "Source/LibWebP/src/dec/alpha_dec.c",
+            "Source/LibWebP/src/dec/buffer_dec.c",
+            "Source/LibWebP/src/dec/frame_dec.c",
+            "Source/LibWebP/src/dec/idec_dec.c",
+            "Source/LibWebP/src/dec/io_dec.c",
+            "Source/LibWebP/src/dec/quant_dec.c",
+            "Source/LibWebP/src/dec/tree_dec.c",
+            "Source/LibWebP/src/dec/vp8l_dec.c",
+            "Source/LibWebP/src/dec/vp8_dec.c",
+            "Source/LibWebP/src/dec/webp_dec.c",
+            "Source/LibWebP/src/demux/anim_decode.c",
+            "Source/LibWebP/src/demux/demux.c",
+            "Source/LibWebP/src/dsp/alpha_processing.c",
+            "Source/LibWebP/src/dsp/alpha_processing_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/alpha_processing_neon.c",
+            "Source/LibWebP/src/dsp/alpha_processing_sse2.c",
+            "Source/LibWebP/src/dsp/alpha_processing_sse41.c",
+            "Source/LibWebP/src/dsp/cost.c",
+            "Source/LibWebP/src/dsp/cost_mips32.c",
+            "Source/LibWebP/src/dsp/cost_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/cost_sse2.c",
+            "Source/LibWebP/src/dsp/cpu.c",
+            "Source/LibWebP/src/dsp/dec.c",
+            "Source/LibWebP/src/dsp/dec_clip_tables.c",
+            "Source/LibWebP/src/dsp/dec_mips32.c",
+            "Source/LibWebP/src/dsp/dec_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/dec_msa.c",
+            "Source/LibWebP/src/dsp/dec_neon.c",
+            "Source/LibWebP/src/dsp/dec_sse2.c",
+            "Source/LibWebP/src/dsp/dec_sse41.c",
+            "Source/LibWebP/src/dsp/enc.c",
+            "Source/LibWebP/src/dsp/enc_avx2.c",
+            "Source/LibWebP/src/dsp/enc_mips32.c",
+            "Source/LibWebP/src/dsp/enc_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/enc_msa.c",
+            "Source/LibWebP/src/dsp/enc_neon.c",
+            "Source/LibWebP/src/dsp/enc_sse2.c",
+            "Source/LibWebP/src/dsp/enc_sse41.c",
+            "Source/LibWebP/src/dsp/filters.c",
+            "Source/LibWebP/src/dsp/filters_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/filters_msa.c",
+            "Source/LibWebP/src/dsp/filters_neon.c",
+            "Source/LibWebP/src/dsp/filters_sse2.c",
+            "Source/LibWebP/src/dsp/lossless.c",
+            "Source/LibWebP/src/dsp/lossless_enc.c",
+            "Source/LibWebP/src/dsp/lossless_enc_mips32.c",
+            "Source/LibWebP/src/dsp/lossless_enc_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/lossless_enc_msa.c",
+            "Source/LibWebP/src/dsp/lossless_enc_neon.c",
+            "Source/LibWebP/src/dsp/lossless_enc_sse2.c",
+            "Source/LibWebP/src/dsp/lossless_enc_sse41.c",
+            "Source/LibWebP/src/dsp/lossless_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/lossless_msa.c",
+            "Source/LibWebP/src/dsp/lossless_neon.c",
+            "Source/LibWebP/src/dsp/lossless_sse2.c",
+            "Source/LibWebP/src/dsp/rescaler.c",
+            "Source/LibWebP/src/dsp/rescaler_mips32.c",
+            "Source/LibWebP/src/dsp/rescaler_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/rescaler_msa.c",
+            "Source/LibWebP/src/dsp/rescaler_neon.c",
+            "Source/LibWebP/src/dsp/rescaler_sse2.c",
+            "Source/LibWebP/src/dsp/ssim.c",
+            "Source/LibWebP/src/dsp/ssim_sse2.c",
+            "Source/LibWebP/src/dsp/upsampling.c",
+            "Source/LibWebP/src/dsp/upsampling_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/upsampling_msa.c",
+            "Source/LibWebP/src/dsp/upsampling_neon.c",
+            "Source/LibWebP/src/dsp/upsampling_sse2.c",
+            "Source/LibWebP/src/dsp/upsampling_sse41.c",
+            "Source/LibWebP/src/dsp/yuv.c",
+            "Source/LibWebP/src/dsp/yuv_mips32.c",
+            "Source/LibWebP/src/dsp/yuv_mips_dsp_r2.c",
+            "Source/LibWebP/src/dsp/yuv_neon.c",
+            "Source/LibWebP/src/dsp/yuv_sse2.c",
+            "Source/LibWebP/src/dsp/yuv_sse41.c",
+            "Source/LibWebP/src/enc/alpha_enc.c",
+            "Source/LibWebP/src/enc/analysis_enc.c",
+            "Source/LibWebP/src/enc/backward_references_cost_enc.c",
+            "Source/LibWebP/src/enc/backward_references_enc.c",
+            "Source/LibWebP/src/enc/config_enc.c",
+            "Source/LibWebP/src/enc/cost_enc.c",
+            "Source/LibWebP/src/enc/filter_enc.c",
+            "Source/LibWebP/src/enc/frame_enc.c",
+            "Source/LibWebP/src/enc/histogram_enc.c",
+            "Source/LibWebP/src/enc/iterator_enc.c",
+            "Source/LibWebP/src/enc/near_lossless_enc.c",
+            "Source/LibWebP/src/enc/picture_csp_enc.c",
+            "Source/LibWebP/src/enc/picture_enc.c",
+            "Source/LibWebP/src/enc/picture_psnr_enc.c",
+            "Source/LibWebP/src/enc/picture_rescale_enc.c",
+            "Source/LibWebP/src/enc/picture_tools_enc.c",
+            "Source/LibWebP/src/enc/predictor_enc.c",
+            "Source/LibWebP/src/enc/quant_enc.c",
+            "Source/LibWebP/src/enc/syntax_enc.c",
+            "Source/LibWebP/src/enc/token_enc.c",
+            "Source/LibWebP/src/enc/tree_enc.c",
+            "Source/LibWebP/src/enc/vp8l_enc.c",
+            "Source/LibWebP/src/enc/webp_enc.c",
+            "Source/LibWebP/src/mux/anim_encode.c",
+            "Source/LibWebP/src/mux/muxedit.c",
+            "Source/LibWebP/src/mux/muxinternal.c",
+            "Source/LibWebP/src/mux/muxread.c",
+            "Source/LibWebP/src/utils/bit_reader_utils.c",
+            "Source/LibWebP/src/utils/bit_writer_utils.c",
+            "Source/LibWebP/src/utils/color_cache_utils.c",
+            "Source/LibWebP/src/utils/filters_utils.c",
+            "Source/LibWebP/src/utils/huffman_encode_utils.c",
+            "Source/LibWebP/src/utils/huffman_utils.c",
+            "Source/LibWebP/src/utils/quant_levels_dec_utils.c",
+            "Source/LibWebP/src/utils/quant_levels_utils.c",
+            "Source/LibWebP/src/utils/random_utils.c",
+            "Source/LibWebP/src/utils/rescaler_utils.c",
+            "Source/LibWebP/src/utils/thread_utils.c",
+            "Source/LibWebP/src/utils/utils.c"
+        }
+
+        excludes {
+            -- Zlib
+            "Source/Zlib/example.c",
+            "Source/Zlib/minigzip.c",
+
+            -- FreeImage
+            "Source/openexr/ilmthread/ilmthreadmutexposix.cpp",      
+            "Source/openexr/ilmthread/ilmthreadmutexwin32.cpp",
+            "Source/openexr/ilmthread/ilmthreadsemaphoreposix.cpp",
+            "Source/openexr/ilmthread/ilmthreadsemaphoreposixcompat.cpp",
+            "Source/openexr/ilmthread/ilmthreadsemaphorewin32.cpp",
+            "Source/openexr/ilmthread/ilmthreadwin32.cpp",
+
+            -- LibTIFF4
+            "Source/LibTIFF4/mkg3states.c",
+            "Source/LibTIFF4/mkspans.c",
+            "Source/LibTIFF4/tif_acorn.c",
+            "Source/LibTIFF4/tif_atari.c",
+            "Source/LibTIFF4/tif_apple.c",
+            "Source/LibTIFF4/tif_msdos.c",
+            "Source/LibTIFF4/tif_unix.c",
+            "Source/LibTIFF4/tif_vms.c",
+            "Source/LibTIFF4/tif_wince.c",
+            "Source/LibTIFF4/tif_win3.c",
+            "Source/LibTIFF4/tif_win32.c"
+        }
+
+        defines {
+            "WIN32",
+            "_LIB",
+            "OPJ_STATIC",
+            "LIBRAW_NODLL",
+            "FREEIMAGE_LIB",
+            "DISABLE_PERF_MEASUREMENT"
         }
 
         filter "configurations:Debug"
-            defines "C_DEBUG"
             runtime "Debug"
             symbols "on"
             optimize "on"
