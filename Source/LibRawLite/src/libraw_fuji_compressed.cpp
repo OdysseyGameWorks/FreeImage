@@ -18,6 +18,7 @@ it under the terms of the one of two licenses as you choose:
 
 // This file is #included in libraw_cxx
 
+#include <libraw\libraw_internal.h>
 #ifdef _abs
 #undef _abs
 #undef _min

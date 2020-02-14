@@ -26,6 +26,7 @@ it under the terms of the one of two licenses as you choose:
 #define LIBRAW_IO_REDEFINED
 #include "libraw/libraw.h"
 #include "internal/defines.h"
+static float fMax(float a, float b) { return MAX(a, b); }
 #include "internal/var_defines.h"
 int CLASS fcol(int row, int col)
 {
@@ -7208,16 +7209,16 @@ void CLASS Canon_WBCTpresets(short WBCTversion)
     {
       imgdata.color.WBCT_Coeffs[i][2] = imgdata.color.WBCT_Coeffs[i][4] = 1.0f;
       fseek(ifp, 2, SEEK_CUR);
-      imgdata.color.WBCT_Coeffs[i][1] = 1024.0f / fMAX(get2(), 1.f);
-      imgdata.color.WBCT_Coeffs[i][3] = 1024.0f / fMAX(get2(), 1.f);
+      imgdata.color.WBCT_Coeffs[i][1] = 1024.0f / fMax(get2(), 1.f);
+      imgdata.color.WBCT_Coeffs[i][3] = 1024.0f / fMax(get2(), 1.f);
       imgdata.color.WBCT_Coeffs[i][0] = get2();
     }
   else if (WBCTversion == 1)
     for (int i = 0; i < 15; i++) // as shot R, as shot B, tint, CСT
     {
       imgdata.color.WBCT_Coeffs[i][2] = imgdata.color.WBCT_Coeffs[i][4] = 1.0f;
-      imgdata.color.WBCT_Coeffs[i][1] = 1024.0f / fMAX(get2(), 1.f);
-      imgdata.color.WBCT_Coeffs[i][3] = 1024.0f / fMAX(get2(), 1.f);
+      imgdata.color.WBCT_Coeffs[i][1] = 1024.0f / fMax(get2(), 1.f);
+      imgdata.color.WBCT_Coeffs[i][3] = 1024.0f / fMax(get2(), 1.f);
       fseek(ifp, 2, SEEK_CUR);
       imgdata.color.WBCT_Coeffs[i][0] = get2();
     }
@@ -7234,8 +7235,8 @@ void CLASS Canon_WBCTpresets(short WBCTversion)
       fseek(ifp, 2, SEEK_CUR);
       fseek(ifp, 2, SEEK_CUR);
       imgdata.color.WBCT_Coeffs[i][2] = imgdata.color.WBCT_Coeffs[i][4] = 1.0f;
-      imgdata.color.WBCT_Coeffs[i][1] = 1024.0f / fMAX(1.f, get2());
-      imgdata.color.WBCT_Coeffs[i][3] = 1024.0f / fMAX(1.f, get2());
+      imgdata.color.WBCT_Coeffs[i][1] = 1024.0f / fMax(1.f, get2());
+      imgdata.color.WBCT_Coeffs[i][3] = 1024.0f / fMax(1.f, get2());
       imgdata.color.WBCT_Coeffs[i][0] = get2();
     }
   else if ((WBCTversion == 2) && ((unique_id == 0x03950000) || (unique_id == 0x03930000))) // G5 X, G9 X
@@ -12194,7 +12195,7 @@ void CLASS parse_kodak_ifd(int base)
     if (tag == 1021 && len == 72)
     { /* WB set in software */
       fseek(ifp, 40, SEEK_CUR);
-      FORC3 cam_mul[c] = 2048.0 / fMAX(1.0f, get2());
+      FORC3 cam_mul[c] = 2048.0 / fMax(1.0f, get2());
       wbi = -2;
     }
 
@@ -15245,7 +15246,7 @@ void CLASS parse_fuji(int offset)
     else if (tag == 0x9650)
     {
       short a = (short)get2();
-      float b = fMAX(1.0f, get2());
+      float b = fMax(1.0f, get2());
       imgdata.makernotes.fuji.FujiExpoMidPointShift = a / b;
     }
 

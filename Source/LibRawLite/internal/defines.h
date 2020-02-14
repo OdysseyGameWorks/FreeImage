@@ -121,7 +121,7 @@ typedef uint64_t UINT64;
     j = t;                                                                                                             \
   }
 
-static float fMAX(float a, float b) { return MAX(a, b); }
+static float fMax(float a, float b);
 
 /*
    In order to inline this calculation, I make the risky

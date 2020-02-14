@@ -34,6 +34,7 @@
 
 #include "windowsmediaphoto.h"
 #include "common.h"
+#include "image/x86/x86.h"
 // #include "xplatform_image.h"
 
 // added for Xcode PK universal binary

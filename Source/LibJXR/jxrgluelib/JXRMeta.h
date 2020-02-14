@@ -29,8 +29,9 @@
 
 #include <windowsmediaphoto.h>
 #if !defined(WIN32) || defined(__MINGW32__)
-#include <wmspecstring.h>
+#include "wmspecstring.h"
 #endif
+#include <JXRMeta.h>
 
 #ifndef UNREFERENCED_PARAMETER
 #define UNREFERENCED_PARAMETER(P) { (P) = (P); }

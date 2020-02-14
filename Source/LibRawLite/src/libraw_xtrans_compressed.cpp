@@ -24,6 +24,7 @@ it under the terms of the one of two licenses as you choose:
 #endif
 #define _abs(x) (((int)(x) ^ ((int)(x) >> 31)) - ((int)(x) >> 31))
 #define _min(a, b) ((a) < (b) ? (a) : (b))
+#include "libraw/libraw_datastream.h"
 
 struct int_pair
 {

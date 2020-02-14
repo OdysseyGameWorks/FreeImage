@@ -21,6 +21,7 @@ it under the terms of the one of two licenses as you choose:
 #define LIBRAW_IO_REDEFINED
 #include "libraw/libraw.h"
 #include "internal/defines.h"
+static float fMax(float a, float b) { return MAX(a, b); }
 #define SRC_USES_SHRINK
 #define SRC_USES_BLACK
 #define SRC_USES_CURVE

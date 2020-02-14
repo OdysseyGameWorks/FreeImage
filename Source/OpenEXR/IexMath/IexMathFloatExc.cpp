@@ -40,9 +40,9 @@
 //
 //-----------------------------------------------------
 
-#include <IexMathFloatExc.h>
+#include "IexMathFloatExc.h"
 #include <IexMacros.h>
-#include <IexMathFpu.h>
+#include "IexMathFpu.h"
 
 #if 0
     #include <iostream>

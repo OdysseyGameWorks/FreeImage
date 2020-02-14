@@ -19,6 +19,7 @@
  * при принятии решения об интерполировании, как и 100 и 200 -- фотографическая яркость между ними 1 стоп.
  * дистанция всегда >=1
  */
+#include <internal\defines.h>
 static inline float calc_dist(float c1, float c2) {
 	return c1 > c2 ? c1 / c2 : c2 / c1;
 }

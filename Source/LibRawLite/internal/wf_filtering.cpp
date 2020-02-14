@@ -24,6 +24,8 @@ it under the terms of the one of two licenses as you choose:
 #define IO libraw_internal_data.internal_output_params
 #define ID libraw_internal_data.internal_data
 
+#include "libraw/libraw.h"
+
 
 int LibRaw::wf_remove_banding()
 {

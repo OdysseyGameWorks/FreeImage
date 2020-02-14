@@ -13,6 +13,8 @@
  *
  */
 
+#include <libraw\libraw.h>
+#include <internal\defines.h>
 typedef ushort ushort3[3];
 typedef int int3[3];
 
